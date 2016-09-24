@@ -20,6 +20,16 @@ class Pesel
     protected $value = null;
 
     /**
+     * @var bool
+     */
+    private $formatValid = null;
+
+    /**
+     * @var bool
+     */
+    private $checksumValid = null;
+
+    /**
      * @param string
      */
     public function __construct($value)
@@ -44,7 +54,12 @@ class Pesel
      */
     public function validateFormat()
     {
-        return ((bool) filter_var($this->value, FILTER_VALIDATE_REGEXP, [ 'options' => [ 'regexp' => '/^\d{11}$/' ] ]));
+        if (null === $this->formatValid) {
+            $this-> formatValid = (bool) filter_var($this->value, FILTER_VALIDATE_REGEXP,
+                [ 'options' => [ 'regexp' => '/^\d{11}$/' ] ]);
+        }
+
+        return $this->formatValid;
     }
 
     /**
@@ -54,19 +69,23 @@ class Pesel
      */
     public function validateChecksum()
     {
-        $crc  = 1 * $this->value[0];
-        $crc += 3 * $this->value[1];
-        $crc += 7 * $this->value[2];
-        $crc += 9 * $this->value[3];
-        $crc += 1 * $this->value[4];
-        $crc += 3 * $this->value[5];
-        $crc += 7 * $this->value[6];
-        $crc += 9 * $this->value[7];
-        $crc += 1 * $this->value[8];
-        $crc += 3 * $this->value[9];
-        $crc += 1 * $this->value[10];
+        if (null === $this->checksumValid) {
+            $crc  = 1 * $this->value[0];
+            $crc += 3 * $this->value[1];
+            $crc += 7 * $this->value[2];
+            $crc += 9 * $this->value[3];
+            $crc += 1 * $this->value[4];
+            $crc += 3 * $this->value[5];
+            $crc += 7 * $this->value[6];
+            $crc += 9 * $this->value[7];
+            $crc += 1 * $this->value[8];
+            $crc += 3 * $this->value[9];
+            $crc += 1 * $this->value[10];
 
-        return (0 === $crc % 10);
+            $this->checksumValid = (0 === $crc % 10);
+        }
+
+        return $this->checksumValid;
     }
 
     /**

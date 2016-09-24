@@ -1,5 +1,8 @@
 #!/usr/bin/env php
 <?php
+/**
+ * Contains tests for Pesel class.
+ */
 require 'Pesel.php';
 
 $peselList = [

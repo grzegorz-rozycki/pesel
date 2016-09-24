@@ -143,7 +143,6 @@ class Pesel
     {
         return ($this->getGender() === self::GENDER_FEMALE);
     }
-    }
 
     public function isMale()
     {

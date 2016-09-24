@@ -11,6 +11,9 @@
  */
 class Pesel
 {
+    const GENDER_FEMALE = 'female';
+    const GENDER_MALE = 'male';
+
     /**
      * @var string
      */
@@ -103,5 +106,28 @@ class Pesel
         return (null !== $year && checkdate($month, $day, $year))
             ? new \DateTime($year . '-' . $month . '-' . $day)
             : null;
+    }
+
+    /**
+     *
+     */
+    public function getGender()
+    {
+        if (!$this->validateFormat()) {
+            return null;
+        }
+
+        return (0 === ($this->value[9] % 2) ? self::GENDER_FEMALE : self::GENDER_MALE);
+    }
+
+    public function isFemale()
+    {
+        return ($this->getGender() === self::GENDER_FEMALE);
+    }
+    }
+
+    public function isMale()
+    {
+        return ($this->getGender() === self::GENDER_MALE);
     }
 }

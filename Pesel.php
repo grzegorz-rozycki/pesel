@@ -1,12 +1,24 @@
 <?php
 
 /**
+ * Class responsible for PESEL validation.
+ *
+ * PESEL (Powszechny Elektroniczny System Ewidencji Ludności) is a Polish citizen identity code.
+ * A PESEL code contains information about a persons birth date and gender.
+ * The class allows for code format, checksum and date validation.
+ *
  * {@link https://pl.wikipedia.org/wiki/PESEL}
  */
 class Pesel
 {
+    /**
+     * @var string
+     */
     protected $value = null;
 
+    /**
+     * @param string
+     */
     public function __construct($value)
     {
         $this->value = (string) $value;
@@ -22,11 +34,21 @@ class Pesel
         return $this->value;
     }
 
+    /**
+     * Validates the code format. Should be exactly 11 numeric characters.
+     *
+     * @return bool
+     */
     public function validateFormat()
     {
         return ((bool) filter_var($this->value, FILTER_VALIDATE_REGEXP, [ 'options' => [ 'regexp' => '/^\d{11}$/' ] ]));
     }
 
+    /**
+     * Validates code checksum.
+     *
+     * @return bool
+     */
     public function validateChecksum()
     {
         $crc  = 1 * $this->value[0];
@@ -44,6 +66,11 @@ class Pesel
         return (0 === $crc % 10);
     }
 
+    /**
+     * Retrieves birth date from code. Returns a DateTime object if date is valid null else.
+     *
+     * @return \DateTime | null
+     */
     public function getDate()
     {
         if (!$this->validateFormat()) {

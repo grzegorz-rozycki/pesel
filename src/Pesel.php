@@ -1,4 +1,6 @@
 <?php
+namespace GrzegorzRozycki\Pesel;
+
 
 /**
  * Class responsible for PESEL validation.
@@ -69,7 +71,7 @@ class Pesel
      */
     public function validateChecksum()
     {
-        if (null === $this->checksumValid) {
+        if (null === $this->checksumValid && $this->checksumValid = $this->validateFormat()) {
             $crc  = 1 * $this->value[0];
             $crc += 3 * $this->value[1];
             $crc += 7 * $this->value[2];
@@ -147,5 +149,10 @@ class Pesel
     public function isMale()
     {
         return ($this->getGender() === self::GENDER_MALE);
+    }
+
+    public function validateDate()
+    {
+        return (null !== $this->getDate());
     }
 }

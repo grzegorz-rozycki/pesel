@@ -1,0 +1,22 @@
+{
+    "name": "grzegorz-rozycki/pesel",
+    "description": "A PHP implementation for validating polish PESEL code.",
+    "type": "Package",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Grzegorz Różycki",
+            "email": "grozycki@op.pl"
+        }
+    ],
+    "autoload": {
+        "psr-4": { "GrzegorzRozycki\\Pesel\\": "src/" }
+    },
+    "autoload-dev": {
+        "psr-4": { "GrzegorzRozycki\\Pesel\\Test\\": "tests/" }
+    },
+    "require": {},
+    "require-dev": {
+        "phpunit/phpunit": "^6.2"
+    }
+}
